@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FWService", "FWService.csproj", "{66622611-57D2-4875-AFFB-3EF1A558F2BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66622611-57D2-4875-AFFB-3EF1A558F2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66622611-57D2-4875-AFFB-3EF1A558F2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66622611-57D2-4875-AFFB-3EF1A558F2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66622611-57D2-4875-AFFB-3EF1A558F2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0AF8C7F-9838-4790-9BBC-2018E21DD8FB}
+	EndGlobalSection
+EndGlobal
