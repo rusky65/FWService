@@ -61,19 +61,23 @@ namespace FWService
         protected override void OnStart(string[] args)
         {
             //Writing log for this event
-            eventLogFwService.WriteEntry("FWService service is started", EventLogEntryType.Information, eventId++);
+            eventLogFwService.WriteEntry("MyFWService service is started", EventLogEntryType.Information, eventId++);
+
+            ReadWatcherConfig();
         }
 
         protected override void OnStop()
         {
             //Writing log for this event
-            eventLogFwService.WriteEntry("FWService service is stopped", EventLogEntryType.Information, eventId++);
+            eventLogFwService.WriteEntry("MyFWService service is stopped", EventLogEntryType.Information, eventId++);
+
+            WriteWatcherConfig();
         }
 
         protected override void OnShutdown()
         {
             //Writing log for this event
-            eventLogFwService.WriteEntry("FWService service stopping is executed by OnShutdown methode.", EventLogEntryType.Information, eventId++);
+            eventLogFwService.WriteEntry("MyFWService service stopping is executed by OnShutdown methode.", EventLogEntryType.Information, eventId++);
 
             Stop();
             base.OnShutdown();
