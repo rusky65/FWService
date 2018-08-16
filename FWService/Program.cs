@@ -12,14 +12,23 @@ namespace FWService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            FWService service = new FWService();
+
+            if (Environment.UserInteractive)
             {
-                new FWService()
-            };
-            ServiceBase.Run(ServicesToRun);
+                service.RunAsConsole(args);
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
+                    service
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
         }
     }
 }

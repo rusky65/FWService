@@ -74,5 +74,21 @@ namespace FWService
             Stop();
             base.OnShutdown();
         }
+
+        /// <summary>
+        /// It's a method to help for debugging
+        /// </summary>
+        /// <param name="args"></param>
+        public void RunAsConsole(string[] args)
+        {
+
+            OnStart(args);
+
+            Console.WriteLine("Press ENTER to exit...");
+            Console.ReadLine();
+
+            OnStop();
+        }
+
     }
 }
