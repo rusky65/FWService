@@ -6,6 +6,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private int eventId = 1;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -28,10 +29,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.eventLogFwService = new System.Diagnostics.EventLog();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLogFwService)).BeginInit();
+            // 
+            // FWService
+            // 
             this.ServiceName = "Service1";
+            ((System.ComponentModel.ISupportInitialize)(this.eventLogFwService)).EndInit();
+
         }
 
         #endregion
+
+        private System.Diagnostics.EventLog eventLogFwService;
     }
 }

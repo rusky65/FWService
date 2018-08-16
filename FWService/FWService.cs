@@ -15,14 +15,31 @@ namespace FWService
         public FWService()
         {
             InitializeComponent();
+
+            #region Setting the event log for this service
+            eventLogFwService = new EventLog();
+            if (!EventLog.SourceExists("FWServiceSource"))
+            {
+                EventLog.CreateEventSource("FWServiceSource", "FWServiceLog");
+            }
+
+            eventLogFwService.Source = "FWServiceSource";
+            eventLogFwService.Log = "FWServiceLog";
+            #endregion Setting the event log for this service
+
+
         }
 
         protected override void OnStart(string[] args)
         {
+            //Writing log for this event
+            eventLogFwService.WriteEntry("FWService service is started", EventLogEntryType.Information, eventId++);
         }
 
         protected override void OnStop()
         {
+            //Writing log for this event
+            eventLogFwService.WriteEntry("FWService service is stopped", EventLogEntryType.Information, eventId++);
         }
     }
 }
