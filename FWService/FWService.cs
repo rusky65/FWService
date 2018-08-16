@@ -164,5 +164,99 @@ namespace FWService
             }
 
         }
+
+        private void WriteWatcherConfig()
+        {
+            string logTextAllWacher = "";
+
+            foreach (Watcher watcher in watchersList)
+            {
+                string logText = "";
+
+                #region Write the file last modify date, if it is a file watcher
+                string prgPath = AppDomain.CurrentDomain.BaseDirectory;
+                XmlDocument xd = new XmlDocument();
+
+                try
+                {
+                    xd.Load(prgPath + "config_FWService.xml");
+
+                    XmlNode watcherNode = xd.SelectSingleNode("watchers/watcher[@watch_type = 'file' and @path = '" + watcher.Path + "' and @filter = '" + watcher.Filter + "']");
+
+                    DateTime fileLastModify_dt = DateTime.MinValue;
+                    if (watcherNode != null)
+                    {
+                        //Check the file last modify date, if it is a file watcher
+                        if (System.IO.File.Exists(watcher.Path + watcher.Filter))
+                        {
+                            FileInfo file = new FileInfo(watcher.Path + watcher.Filter);
+                            fileLastModify_dt = Convert.ToDateTime(file.LastWriteTime.ToString("yyyy.MM.dd HH:mm"));
+                        }
+
+                        XmlNode fileNode;
+                        if (watcherNode.HasChildNodes)
+                        {
+                            fileNode = watcherNode.SelectSingleNode("file");
+                        }
+                        else
+                        {
+                            fileNode = xd.CreateElement("file");
+
+                            XmlAttribute attributeModify_dt = xd.CreateAttribute("modify_dt");
+                            attributeModify_dt.Value = DateTime.MinValue.ToString();
+
+                            fileNode.Attributes.Append(attributeModify_dt);
+
+                            watcherNode.AppendChild(fileNode);
+                        }
+
+                        //We store fileLastModify_dt, if fileLastModify_dt different from storedFileLastModify_dt
+                        DateTime storedFileLastModify_dt = Convert.ToDateTime(watcherNode.FirstChild.Attributes.GetNamedItem("modify_dt").Value);
+                        if (DateTime.Compare(storedFileLastModify_dt, fileLastModify_dt) != 0)
+                        {
+                            fileNode.Attributes.GetNamedItem("modify_dt").Value = fileLastModify_dt.ToString("yyyy.MM.dd HH:mm");
+                            xd.Save(prgPath + "config_FWService.xml");
+                        }
+
+                    }
+                    #endregion
+
+                    // Collect the event logs
+                    logText = watcher.getLog();
+                    if (logText != "")
+                    {
+                        logTextAllWacher += "\r\n   ==>  " + watcher.Caption + " event:  <==\r\n================================\r\n" + logText;
+                    }
+
+                    // if was any event, then write it into log.
+                    if (logTextAllWacher != "")
+                    {
+                        eventLogFwService.WriteEntry($" || ------ Events of day log ------ ||\r\n" + logTextAllWacher, EventLogEntryType.Information, eventId++);
+                    }
+                }
+                catch (XmlException xmlEx)
+                {
+                    eventLogFwService.WriteEntry(xmlEx.ToString(), EventLogEntryType.Error, eventId++);
+                }
+                catch (DirectoryNotFoundException dirEx)
+                {
+                    eventLogFwService.WriteEntry(dirEx.ToString(), EventLogEntryType.Error, eventId++);
+                }
+                catch (FileNotFoundException fileEx)
+                {
+                    eventLogFwService.WriteEntry(fileEx.ToString(), EventLogEntryType.Error, eventId++);
+                }
+                catch (IOException ioEx)
+                {
+                    eventLogFwService.WriteEntry(ioEx.ToString(), EventLogEntryType.Error, eventId++);
+                }
+                catch (Exception ex)
+                {
+                    eventLogFwService.WriteEntry(ex.ToString(), EventLogEntryType.Error, eventId++);
+                }
+            }
+
+        }
+
     }
 }
